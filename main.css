@@ -4,6 +4,14 @@
 
 @layer demo {
   /* Click to enter overlay styles */
+  #enter-sound {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+
   .enter-overlay {
     position: fixed;
     top: 0;
@@ -17,10 +25,12 @@
     justify-content: center;
     z-index: 9999;
     transition: opacity 1.5s ease, visibility 1.5s ease;
+    cursor: pointer;
   }
 
   .enter-overlay .enter-content {
     text-align: center;
+    animation: pulse 2s infinite;
   }
 
   .enter-overlay h1 {
@@ -28,11 +38,10 @@
     font-weight: 300;
     letter-spacing: 2px;
     text-transform: uppercase;
-    cursor: pointer;
     transition: transform 0.3s ease;
   }
 
-  .enter-overlay h1:hover {
+  .enter-overlay:hover h1 {
     transform: scale(1.05);
   }
 
@@ -41,7 +50,13 @@
     visibility: hidden;
   }
 
-  /* Rest of your existing styles */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* Original styles */
   body {
     background: light-dark(#fff, #000);
     display: flex;
@@ -159,7 +174,6 @@
       line-height: 1;
       color: inherit;
       
-
       &:is(:focus-visible, :hover) {
         outline: none;
         span {
@@ -306,8 +320,7 @@
     background: linear-gradient(
           90deg,
           var(--line) 1px,
-          transparent 1px var(--size)
-        )
+          transparent 1px var(--size))
         50% 50% / var(--size) var(--size),
       linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
         var(--size) var(--size);
