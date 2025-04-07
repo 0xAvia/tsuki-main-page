@@ -1,5 +1,43 @@
 import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
 
+// Audio and overlay functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.querySelector('.enter-overlay');
+  const enterSound = document.getElementById('enter-sound');
+  
+  // Try to preload audio (helps with immediate playback)
+  if (enterSound) {
+    enterSound.volume = 0.7; // Set comfortable volume level
+    enterSound.load();
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', async () => {
+      try {
+        // Play sound if available
+        if (enterSound) {
+          enterSound.currentTime = 0; // Rewind if already played
+          await enterSound.play();
+        }
+        
+        // Start fade out
+        overlay.classList.add('fade-out');
+        
+        // Remove overlay after animation completes
+        setTimeout(() => {
+          overlay.remove();
+        }, 1500);
+        
+      } catch (err) {
+        console.error("Audio playback failed:", err);
+        // Fallback - continue with animation even if audio fails
+        overlay.classList.add('fade-out');
+        setTimeout(() => overlay.remove(), 1500);
+      }
+    });
+  }
+});
+
 const config = {
   theme: 'system',
 }
