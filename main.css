@@ -1,32 +1,14 @@
-/* ===== Base Styles ===== */
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400&display=swap');
-
-:root {
-  --primary-bg: #000;
-  --secondary-bg: #111;
-  --border-color: #333;
-  --text-primary: #fff;
-  --text-secondary: #aaa;
-  --accent-color: #5865F2; /* Discord blurple */
-  --transition-speed: 0.3s;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Lexend', sans-serif;
-  font-weight: 400;
-}
+/* ===== RESET ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--primary-bg);
-  color: var(--text-primary);
+  font-family: 'Lexend', sans-serif;
+  background: #000;
+  color: #fff;
   min-height: 100vh;
-  line-height: 1.5;
 }
 
-/* ===== Click to Enter Screen ===== */
+/* ===== ENTRY SCREEN ===== */
 #entry-screen {
   position: fixed;
   top: 0;
@@ -37,17 +19,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--primary-bg);
+  background: #000;
   z-index: 1000;
   cursor: pointer;
-  transition: opacity var(--transition-speed) ease;
 }
 
 #entry-screen h1 {
-  font-size: clamp(2rem, 8vw, 4rem);
+  font-size: 4rem;
   margin-bottom: 1rem;
-  letter-spacing: -0.05em;
-  background: linear-gradient(90deg, #fff, #ccc);
+  background: linear-gradient(90deg, #fff, #aaa);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -55,70 +35,65 @@ body {
 
 #entry-screen p {
   opacity: 0.7;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 3px;
 }
 
-/* ===== Main Content ===== */
-.hidden {
-  display: none !important;
-}
+/* ===== MAIN CONTENT ===== */
+.hidden { display: none; }
 
 #main-content {
   padding: 2rem;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-/* ===== Grid Layout ===== */
+.title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  text-align: center;
+  opacity: 0.8;
+  margin-bottom: 3rem;
+}
+
+/* ===== GRID LAYOUT ===== */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
   list-style: none;
-  padding: 0;
-  margin: 2rem 0;
 }
 
 .grid-item {
-  background: var(--secondary-bg);
+  background: #111;
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  transition: all var(--transition-speed) ease;
+  border: 1px solid #333;
+  transition: transform 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
 .grid-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
 .grid-item[data-active="true"] {
-  border-color: var(--accent-color);
+  border-color: #5865F2;
 }
 
-/* ===== Article Styles ===== */
-article {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
+/* ===== ARTICLE STYLES ===== */
 article h3 {
   font-size: 1.3rem;
-  margin-bottom: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
 }
 
 article p {
-  font-size: 0.95rem;
   opacity: 0.8;
-  margin-bottom: 1.2rem;
-  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 article img {
@@ -126,116 +101,48 @@ article img {
   height: 200px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-/* ===== Button Styles ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.5rem;
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all var(--transition-speed) ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn:hover {
-  background: rgba(255,255,255,0.05);
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-}
-
-.btn-primary {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
-}
-
-.btn-primary:hover {
-  background: transparent;
-}
-
-.btn svg {
-  margin-right: 0.5rem;
-  width: 16px;
-  height: 16px;
-}
-
-/* ===== Access Button ===== */
+/* ===== ACCESS BUTTON ===== */
 .access-btn {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  display: inline-block;
   padding: 0.5rem 1rem;
   background: rgba(255,255,255,0.1);
-  border: none;
   border-radius: 20px;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  transition: all var(--transition-speed) ease;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s ease;
 }
 
 .access-btn:hover {
-  background: var(--accent-color);
+  background: #5865F2;
   padding-right: 2rem;
 }
 
-.access-btn::after {
-  content: "→";
-  position: absolute;
-  right: 1rem;
-  opacity: 0;
-  transition: all var(--transition-speed) ease;
+.access-btn:hover span::after {
+  content: " →";
 }
 
-.access-btn:hover::after {
-  opacity: 1;
-  right: 0.8rem;
-}
-
-/* ===== Discord Link ===== */
+/* ===== DISCORD LINK ===== */
 .discord-link {
   position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
+  bottom: 2rem;
+  left: 2rem;
   width: 50px;
   height: 50px;
+  background: #5865F2;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent-color);
-  border-radius: 50%;
-  transition: all var(--transition-speed) ease;
+  transition: transform 0.3s ease;
 }
 
 .discord-link:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
 }
 
 .discord-link img {
   width: 60%;
-  height: auto;
-}
-
-/* ===== Responsive Adjustments ===== */
-@media (max-width: 768px) {
-  #main-content {
-    padding: 1rem;
-  }
-  
-  .grid-container {
-    grid-template-columns: 1fr;
-  }
-  
-  #entry-screen h1 {
-    font-size: 2.5rem;
-  }
 }
