@@ -1,43 +1,72 @@
-// ENTRY SCREEN
-const entryScreen = document.getElementById('entry-screen');
-const mainContent = document.getElementById('main-content');
-const enterSound = document.getElementById('enter-sound');
+import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
 
-entryScreen.addEventListener('click', () => {
-  // Play sound
-  if (enterSound) {
-    enterSound.volume = 0.5;
-    enterSound.play().catch(e => console.log("Audio error:", e));
-  }
-  
-  // Hide entry screen
-  entryScreen.style.opacity = '0';
-  setTimeout(() => {
-    entryScreen.style.display = 'none';
-    mainContent.classList.remove('hidden');
-  }, 500);
-});
+const config = {
+  theme: 'system',
+}
 
-// GRID INTERACTION
-const gridItems = document.querySelectorAll('.grid-item');
+const ctrl = new Pane({
+  title: 'Config',
+  expanded: true,
+})
 
-gridItems.forEach(item => {
-  item.addEventListener('click', () => {
-    // Remove active state from all
-    gridItems.forEach(i => i.dataset.active = "false");
-    // Set clicked item as active
-    item.dataset.active = "true";
-  });
-});
+const update = () => {
+  document.documentElement.dataset.theme = config.theme
+}
 
-// TWEAKPANE
-const pane = new Tweakpane.Pane();
-pane.addBinding({ theme: 'system' }, 'theme', {
+const sync = (event) => {
+  if (
+    !document.startViewTransition ||
+    event.target.controller.view.labelElement.innerText !== 'Theme'
+  )
+    return update()
+  document.startViewTransition(() => update())
+}
+
+ctrl.addBinding(config, 'theme', {
+  label: 'Theme',
   options: {
-    system: 'system',
-    light: 'light',
-    dark: 'dark'
+    System: 'system',
+    Light: 'light',
+    Dark: 'dark',
+  },
+})
+
+ctrl.on('change', sync)
+update()
+
+// the one piece we need goes here
+const list = document.querySelector('ul')
+const items = list.querySelectorAll('li')
+const setIndex = (event) => {
+  // for flex
+  // if (event.target.closest('li'))
+  //   for (const item of items)
+  //     item.dataset.active =
+  //       item === event.target.closest('li') ? 'true' : 'false'
+  // for grid
+  const closest = event.target.closest('li')
+  if (closest) {
+    const index = [...items].indexOf(closest)
+    const cols = new Array(list.children.length)
+      .fill()
+      .map((_, i) => {
+        items[i].dataset.active = (index === i).toString()
+        return index === i ? '10fr' : '1fr'
+      })
+      .join(' ')
+    list.style.setProperty('grid-template-columns', cols)
   }
-}).on('change', ev => {
-  document.documentElement.dataset.theme = ev.value;
-});
+}
+list.addEventListener('focus', setIndex, true)
+list.addEventListener('click', setIndex)
+list.addEventListener('pointermove', setIndex)
+const resync = () => {
+  const w = Math.max(
+    ...[...items].map((i) => {
+      return i.offsetWidth
+    })
+  )
+  list.style.setProperty('--article-width', w)
+}
+window.addEventListener('resize', resync)
+resync()
